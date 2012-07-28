@@ -30,7 +30,7 @@ After publishing, you'll get the ID of the post (the number after "?post=" in th
 
 In your post, at the place you want to display our effect, write the shortcode [parallax id="THE_NUMBER_I_WAS_TALKING_ABOUT"].
 
-[See the demo](http://webmaestro.fr/blog/2012/image-parallax-plugin-for-wordpress/ "See the demo")<a href=""></a>.
+[See the demo](http://webmaestro.fr/blog/2012/image-parallax-plugin-for-wordpress/ "See the demo").
 
 Enjoy !
 
