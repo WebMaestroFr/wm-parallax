@@ -77,13 +77,10 @@
   }());
   // CONTROLLER - Edit
   media.controller.ParallaxEdit = media.controller.Library.extend({
-    defaults: {
+  defaults: {
       id:         'parallax-edit',
-      multiple:   false,
-      describe:   true,
-      edge:       199,
+      edge:       249,
       editing:    false,
-      sortable:   true,
       searchable: false,
       toolbar:    'parallax-edit',
       content:    'browse',
@@ -248,10 +245,10 @@
                 state = controller.state(),
                 selection = state.get('library');
               controller.close();
-              state.trigger('update', state.get('library'));
+              // state.trigger('update', state.get('library'));
+media.editor.insert(media.parallax.shortcode(selection).string());
               controller.setState(controller.options.state);
               controller.reset();
-media.editor.insert(media.parallax.shortcode(selection).string());
             }
           }
         }

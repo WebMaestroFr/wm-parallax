@@ -5,7 +5,7 @@ Plugin URI: http://#
 Author: Etienne Baudry
 Author URI: http://webmaestro.fr
 Description: A parallax media type.
-Version: 1.0
+Version: 2.0
 License: GNU General Public License
 License URI: license.txt
 Text Domain: wm-parallax
@@ -13,21 +13,22 @@ Text Domain: wm-parallax
 
 class WM_Parallax
 {
-  private static $behaviors = array(
-    'calibrate_x' => 'false',
-    'calibrate_y' => 'true',
-    'invert_x' => 'true',
-    'invert_y' => 'true',
-    'limit_x' => 'false',
-    'limit_y' => 'false',
+  public static $behaviors = array(
+    'calibrate_x' => false,
+    'calibrate_y' => true,
+    'invert_x' => true,
+    'invert_y' => true,
+    'limit_x' => false,
+    'limit_y' => false,
     'scalar_x' => 10.0,
     'scalar_y' => 10.0,
-    'friction_x' => 0.1,
-    'friction_y' => 0.1
+    'friction_x' => 0.5,
+    'friction_y' => 0.5
   );
 
   public static function init()
   {
+    add_action( 'admin_init', array( __CLASS__, 'update_plugin' ) );
     add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
     add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_scripts' ) );
     add_filter( 'media_view_strings', array( __CLASS__, 'media_view_strings' ) );
@@ -46,8 +47,8 @@ class WM_Parallax
     if ( $hook_suffix === 'post-new.php' || $hook_suffix === 'post.php' ) {
       wp_enqueue_media();
       require_once( plugin_dir_path( __FILE__ ) . 'tpl/edit.php' );
-      wp_enqueue_script( 'wm-parallax-edit', plugins_url( 'js/wm-parallax-edit.js' , __FILE__ ), array( 'media-views' ), false, true );
-      wp_enqueue_style( 'wm-parallax-edit', plugins_url( 'css/wm-parallax-edit.css' , __FILE__ ) );
+      wp_enqueue_script( 'wm-parallax-media', plugins_url( 'js/wm-parallax-media.js' , __FILE__ ), array( 'media-views' ), false, true );
+      wp_enqueue_style( 'wm-parallax-media', plugins_url( 'css/wm-parallax-media.css' , __FILE__ ) );
     }
   }
 
@@ -86,6 +87,40 @@ class WM_Parallax
       return $output . '</ul></div>';
     }
     return '';
+  }
+
+  // The previous version of this plugin used post types...
+  public function update_plugin() {
+    if ( ! get_option( 'wm-parallax-version' ) ) {
+      register_post_type( 'parallax', array( 'public' => false ) );
+      $effects = get_posts( array( 'numberposts' => -1, 'post_type' => 'parallax' ) );
+      if ( ! empty( $effects ) ) {
+        $old = $new = array();
+        foreach ( $effects as $parallax ) {
+          $attachments = get_posts( array(
+            'numberposts' => -1,
+            'post_type' => 'attachment',
+			      'post_mime_type' => 'image/png, image/gif',
+            'post_parent' => $parallax->ID,
+            'orderby' => 'menu_order',
+            'exclude' => get_post_thumbnail_id( $parallax->ID )
+          ) );
+          $ids = array();
+          foreach ( $attachments as $image ) { $ids[] = $image->ID; }
+          $old[] = "/\[[\s]?parallax[\s]+id=[\"|\'][\s]?{$parallax->ID}[\s]?[\"|\'][\s]?\]/";
+          $new[] = '[parallax ids="' . implode( ',', $ids ) . '"]';
+        }
+        $posts = get_posts( array( 'numberposts' => -1, 'post_type' => 'any' ) );
+        foreach ( $posts as $post ) {
+          $content = preg_replace( $old, $new, $post->post_content, -1, $count );
+          if ( $count > 0 ) {
+            wp_update_post( array( 'ID' => $post->ID, 'post_content' => $content ) );
+          }
+        }
+      }
+      $data = get_plugin_data( __FILE__, false );
+      update_option( 'wm-parallax-version', $data['Version'] );
+    }
   }
 }
 add_action( 'init', array( WM_Parallax, 'init' ) );
