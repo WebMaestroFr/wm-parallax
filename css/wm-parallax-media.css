@@ -30,3 +30,26 @@
   box-shadow: 0 1px 0 #fff;
   padding: 8px 0 11px;
 }
+
+#parallaxbtns {
+  padding: 2px;
+  position: absolute;
+  display: none;
+  z-index: 155000;
+}
+#editparallax,
+#delparallax {
+  border-color: #999;
+  background-color: #eee;
+  margin: 2px;
+  padding: 2px;
+  border-width: 1px;
+  border-style: solid;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+#editparallax:hover,
+#delparallax:hover {
+  border-color: #555;
+  background-color: #ccc;
+}

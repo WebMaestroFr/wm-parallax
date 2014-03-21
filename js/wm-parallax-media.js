@@ -2,7 +2,7 @@
   'use strict';
   var media = wp.media,
     l10n = media.view.l10n,
-    post = media.view.MediaFrame.Post;
+    mediaFrame = media.view.MediaFrame.Post;
   // MODEL
   media.parallax = (function () {
     var effects = {};
@@ -77,10 +77,10 @@
   }());
   // CONTROLLER - Edit
   media.controller.ParallaxEdit = media.controller.Library.extend({
-  defaults: {
+    defaults: {
       id:         'parallax-edit',
       edge:       249,
-      editing:    false,
+      sortable:   true,
       searchable: false,
       toolbar:    'parallax-edit',
       content:    'browse',
@@ -93,6 +93,9 @@
     initialize: function () {
       if (!this.get('library')) { this.set('library', new media.model.Selection()); }
       if (!this.get('AttachmentView')) { this.set('AttachmentView', media.view.Attachment.EditLibrary); }
+      this.on('update', function( selection ) {
+        media.editor.insertParallax( media.parallax.shortcode( selection ).string() );
+      });
       media.controller.Library.prototype.initialize.apply(this, arguments);
     },
     activate: function () {
@@ -159,10 +162,10 @@
     className: 'parallax-settings',
     template:  media.template('parallax-settings')
   });
-  wp.media.view.MediaFrame.Post = post.extend({
+  wp.media.view.MediaFrame.Post = mediaFrame.extend({
     initialize: function () {
       var options = this.options;
-      post.prototype.initialize.apply(this, arguments);
+      mediaFrame.prototype.initialize.apply(this, arguments);
       this.states.add([
         new media.controller.Library({
           id:         'parallax',
@@ -184,7 +187,7 @@
       ]);
     },
     bindHandlers: function () {
-      post.prototype.bindHandlers.apply(this, arguments);
+      mediaFrame.prototype.bindHandlers.apply(this, arguments);
       this.on('menu:create:parallax', this.createMenu, this);
       this.on('toolbar:create:main-parallax', this.createToolbar, this);
       this.on('menu:render:parallax', this.parallaxMenu, this);
@@ -245,8 +248,8 @@
                 state = controller.state(),
                 selection = state.get('library');
               controller.close();
-              // state.trigger('update', state.get('library'));
-media.editor.insert(media.parallax.shortcode(selection).string());
+              state.trigger('update', state.get('library'));
+// media.editor.insert(media.parallax.shortcode(selection).string());
               controller.setState(controller.options.state);
               controller.reset();
             }
