@@ -39,10 +39,12 @@
 }
 #editparallax,
 #delparallax {
+  width: 20px;
+  height: 20px;
   border-color: #999;
   background-color: #eee;
   margin: 2px;
-  padding: 2px;
+  padding: 4px;
   border-width: 1px;
   border-style: solid;
   -webkit-border-radius: 3px;

@@ -46,12 +46,18 @@ class WM_Parallax
   public static function admin_enqueue_scripts( $hook_suffix )
   {
     if ( current_user_can( 'edit_posts' ) && ( $hook_suffix === 'post-new.php' || $hook_suffix === 'post.php' ) ) {
-      wp_enqueue_media();
       require_once( plugin_dir_path( __FILE__ ) . 'tpl/edit.php' );
+      wp_enqueue_media();
       wp_enqueue_script( 'wm-parallax-media', plugins_url( 'js/wm-parallax-media.js' , __FILE__ ), array( 'media-views' ), false, true );
       wp_enqueue_style( 'wm-parallax-media', plugins_url( 'css/wm-parallax-media.css' , __FILE__ ) );
       add_editor_style( plugins_url( 'css/wm-parallax-editor.css' , __FILE__ ) );
     }
+  }
+
+  public static function mce_plugin( $plugins )
+  {
+    $plugins['parallax'] = plugins_url( 'js/wm-parallax-editor.js' , __FILE__ );
+    return $plugins;
   }
 
   public static function media_view_strings( $strings )
@@ -65,13 +71,8 @@ class WM_Parallax
   		'updateParallax'      => __( 'Update parallax' ),
   		'addToParallax'       => __( 'Add to parallax' ),
   		'addToParallaxTitle'  => __( 'Add to Parallax' ),
+  		'deleteParallaxTitle' => __( 'Delete Parallax' )
     ) );
-  }
-
-  public static function mce_plugin( $plugins )
-  {
-    $plugins['parallax'] = plugins_url( 'js/wm-parallax-editor.js' , __FILE__ );
-    return $plugins;
   }
 
   public static function shortcode( $atts ) {
