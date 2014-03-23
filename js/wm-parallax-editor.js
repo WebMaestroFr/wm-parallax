@@ -82,25 +82,11 @@
       isRetina = (window.devicePixelRatio && window.devicePixelRatio > 1) || // WebKit, Opera
         (window.matchMedia && window.matchMedia('(min-resolution:130dpi)').matches); // Firefox, IE10, Opera
       DOM.add(document.body, 'div', { id : 'parallaxbtns', style : 'display:none;' });
-      // editButton = DOM.add('parallaxbtns', 'img', {
-      //   src : isRetina ? tinymce.baseURL + '/plugins/wpgallery/img/edit-2x.png' : tinymce.baseURL + '/plugins/wpgallery/img/edit.png',
-      //   id : 'editparallax',
-      //   width : '24',
-      //   height : '24',
-      //   title : 'Edit Parallax'
-      // });
       editButton = DOM.add('parallaxbtns', 'div', {
         class : 'dashicons dashicons-edit',
         id : 'editparallax',
         title : wp.media.view.l10n.editParallaxTitle
       });
-      // dellButton = DOM.add('parallaxbtns', 'img', {
-      //   src : isRetina ? tinymce.baseURL + '/plugins/wpgallery/img/delete-2x.png' : tinymce.baseURL + '/plugins/wpgallery/img/delete.png',
-      //   id : 'delparallax',
-      //   width : '24',
-      //   height : '24',
-      //   title : wp.media.view.l10n.deleteParallaxTitle
-      // });
       dellButton = DOM.add('parallaxbtns', 'div', {
         class : 'dashicons dashicons-no',
         id : 'delparallax',
