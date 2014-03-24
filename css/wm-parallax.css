@@ -5,3 +5,7 @@
   padding: 0;
   display: inline-block;
 }
+.wm-parallax img {
+  max-width: 100%;
+  height: auto;
+}
