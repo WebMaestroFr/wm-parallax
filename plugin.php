@@ -2,6 +2,7 @@
 /*
 Plugin Name: WebMaestro Parallax
 Plugin URI: http://#
+GitHub Plugin URI: WebMaestroFr/wm-parallax
 Author: Etienne Baudry
 Author URI: http://webmaestro.fr
 Description: A parallax media type.
