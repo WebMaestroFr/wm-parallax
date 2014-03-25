@@ -2,7 +2,22 @@
   'use strict';
   var media = wp.media,
     l10n = media.view.l10n,
-    mediaFrame = media.view.MediaFrame.Post;
+    mediaFrame = media.view.MediaFrame.Post,
+    insertParallax = function (h) {
+      var qt = (QTags !== 'undefined'),
+        ed = tinymce.activeEditor,
+        wpActiveEditor = window.wpActiveEditor;
+      if (ed && !ed.isHidden()) {
+        if (tinymce.isIE && ed.windowManager.insertimagebookmark) { ed.selection.moveToBookmark(ed.windowManager.insertimagebookmark); }
+        if (h.indexOf('[parallax') !== -1) {
+          if (ed.plugins.parallax) { h = ed.plugins.parallax._do_parallax(h); }
+        }
+        ed.execCommand('mceInsertContent', false, h);
+      } else if (qt) {
+        QTags.insertContent(h);
+      } else { document.getElementById(wpActiveEditor).value += h; }
+      if (window.tb_remove) { try { window.tb_remove(); } catch (ignore) {} }
+    };
   // MODEL
   media.parallax = (function () {
     var effects = {};
@@ -94,7 +109,7 @@
       if (!this.get('library')) { this.set('library', new media.model.Selection()); }
       if (!this.get('AttachmentView')) { this.set('AttachmentView', media.view.Attachment.EditLibrary); }
       this.on('update', function( selection ) {
-        media.editor.insertParallax( media.parallax.shortcode( selection ).string() );
+        insertParallax( media.parallax.shortcode( selection ).string() );
       });
       media.controller.Library.prototype.initialize.apply(this, arguments);
     },

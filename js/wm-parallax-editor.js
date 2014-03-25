@@ -122,19 +122,4 @@
     }
   });
   tinymce.PluginManager.add('parallax', tinymce.plugins.parallax);
-  wp.media.editor.insertParallax = function (h) {
-    var qt = (QTags !== 'undefined'),
-      ed = tinymce.activeEditor,
-      wpActiveEditor = window.wpActiveEditor;
-    if (ed && !ed.isHidden()) {
-      if (tinymce.isIE && ed.windowManager.insertimagebookmark) { ed.selection.moveToBookmark(ed.windowManager.insertimagebookmark); }
-      if (h.indexOf('[parallax') !== -1) {
-        if (ed.plugins.parallax) { h = ed.plugins.parallax._do_parallax(h); }
-      }
-      ed.execCommand('mceInsertContent', false, h);
-    } else if (qt) {
-      QTags.insertContent(h);
-    } else { document.getElementById(wpActiveEditor).value += h; }
-    if (window.tb_remove) { try { window.tb_remove(); } catch (ignore) {} }
-  };
 }());
