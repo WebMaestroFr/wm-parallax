@@ -2,7 +2,6 @@
 /*
 Plugin Name: WebMaestro Parallax
 Plugin URI: http://webmaestro.fr/image-parallax-plugin-wordpress/
-GitHub Plugin URI: WebMaestroFr/wm-parallax
 Author: Etienne Baudry
 Author URI: http://webmaestro.fr
 Description: A parallax media type.
@@ -10,6 +9,8 @@ Version: 2.0
 License: GNU General Public License
 License URI: license.txt
 Text Domain: wm-parallax
+GitHub Plugin URI: https://github.com/WebMaestroFr/wm-parallax
+GitHub Branch: v2
 */
 
 class WM_Parallax
