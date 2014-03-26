@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WebMaestro Parallax
-Plugin URI: http://#
+Plugin URI: http://webmaestro.fr/image-parallax-plugin-wordpress/
 GitHub Plugin URI: WebMaestroFr/wm-parallax
 Author: Etienne Baudry
 Author URI: http://webmaestro.fr
