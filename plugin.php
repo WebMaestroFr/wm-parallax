@@ -37,11 +37,13 @@ class WM_Parallax
     add_shortcode( 'parallax', array( __CLASS__, 'shortcode' ) );
   }
 
-  public static function enqueue_scripts( $hook_suffix )
+  public static function enqueue_scripts()
   {
-    wp_register_script( 'parallax', plugins_url( 'js/vendor/jquery.parallax.min.js' , __FILE__ ), 'false', false, true );
-    wp_register_script( 'wm-parallax', plugins_url( 'js/wm-parallax.js' , __FILE__ ), array( 'parallax' ), false, true );
-    wp_register_style( 'wm-parallax', plugins_url( 'css/wm-parallax.css' , __FILE__ ) );
+    if ( preg_match( '/\[parallax(.)+\]/', $GLOBALS['post']->post_content ) ) {
+      wp_register_script( 'parallax', plugins_url( 'js/vendor/jquery.parallax.min.js' , __FILE__ ), 'false', false, true );
+      wp_enqueue_script( 'wm-parallax', plugins_url( 'js/wm-parallax.js' , __FILE__ ), array( 'parallax' ), false, true );
+      wp_enqueue_style( 'wm-parallax', plugins_url( 'css/wm-parallax.css' , __FILE__ ) );
+    }
   }
 
   public static function admin_enqueue_scripts( $hook_suffix )
@@ -80,8 +82,6 @@ class WM_Parallax
     $ids = explode( ',', $atts['ids'] );
     if ( $count = count( $ids ) - 1 ) {
       $atts = shortcode_atts( self::$behaviors, $atts, 'parallax' );
-      wp_enqueue_script( 'wm-parallax' );
-      wp_enqueue_style( 'wm-parallax' );
       $output = '<div class="wm-parallax"><ul';
       foreach ( self::$behaviors as $data => $default ) {
         $value = isset( $atts[$data] ) ? $atts[$data] : $default;
