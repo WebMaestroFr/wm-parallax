@@ -195,20 +195,20 @@
           }, options.library))
         }),
         // FOR 3.9 ?
-				// new media.controller.CollectionEdit({
-				// 	type:           'image',
-				// 	collectionType: 'parallax',
-				// 	title:           l10n.editParallaxTitle,
-				// 	SettingsView:    media.view.Settings.Parallax,
-				// 	library:         options.selection,
-				// 	editing:         options.editing,
-				// 	menu:           'parallax'
-				// }),
+        // new media.controller.CollectionEdit({
+        //   type:           'image',
+        //   collectionType: 'parallax',
+        //   title:           l10n.editParallaxTitle,
+        //   SettingsView:    media.view.Settings.Parallax,
+        //   library:         options.selection,
+        //   editing:         options.editing,
+        //   menu:           'parallax'
+        // }),
         // new media.controller.CollectionAdd({
-				// 	type:           'image',
-				// 	collectionType: 'parallax',
-				// 	title:          l10n.addToPrallaxTitle
-				// }),
+        //   type:           'image',
+        //   collectionType: 'parallax',
+        //   title:          l10n.addToPrallaxTitle
+        // }),
         new media.controller.ParallaxEdit({
           library: options.selection,
           editing: options.editing

@@ -83,14 +83,14 @@ class WM_Parallax
   {
     return array_merge( $strings, array(
       'createNewParallax'   => __( 'Create a new parallax' ),
-  		'createParallaxTitle' => __( 'Create Parallax' ),
-  		'editParallaxTitle'   => __( 'Edit Parallax' ),
-  		'cancelParallaxTitle' => __( '&#8592; Cancel Parallax' ),
-  		'insertParallax'      => __( 'Insert parallax' ),
-  		'updateParallax'      => __( 'Update parallax' ),
-  		'addToParallax'       => __( 'Add to parallax' ),
-  		'addToParallaxTitle'  => __( 'Add to Parallax' ),
-  		'deleteParallaxTitle' => __( 'Delete Parallax' )
+      'createParallaxTitle' => __( 'Create Parallax' ),
+      'editParallaxTitle'   => __( 'Edit Parallax' ),
+      'cancelParallaxTitle' => __( '&#8592; Cancel Parallax' ),
+      'insertParallax'      => __( 'Insert parallax' ),
+      'updateParallax'      => __( 'Update parallax' ),
+      'addToParallax'       => __( 'Add to parallax' ),
+      'addToParallaxTitle'  => __( 'Add to Parallax' ),
+      'deleteParallaxTitle' => __( 'Delete Parallax' )
     ) );
   }
 
@@ -126,7 +126,7 @@ class WM_Parallax
           $attachments = get_posts( array(
             'numberposts' => -1,
             'post_type' => 'attachment',
-			      'post_mime_type' => 'image/png, image/gif',
+            'post_mime_type' => 'image/png, image/gif',
             'post_parent' => $parallax->ID,
             'orderby' => 'menu_order',
             'exclude' => get_post_thumbnail_id( $parallax->ID )

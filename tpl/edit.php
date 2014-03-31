@@ -6,11 +6,11 @@ function wm_parallax_print_media_templates() {
 
   <script type="text/html" id="tmpl-parallax-settings">
 
-		<h3><?php _e( 'Calibrate', 'wm-parallax' ); ?></h3>
-		<label class="setting">
-			<span><?php _e( 'X axis', 'wm-parallax' ); ?></span>
-			<input type="checkbox" data-setting="calibrate_x" <?php checked( $default['calibrate_x'] ); ?>>
-		</label>
+    <h3><?php _e( 'Calibrate', 'wm-parallax' ); ?></h3>
+    <label class="setting">
+      <span><?php _e( 'X axis', 'wm-parallax' ); ?></span>
+      <input type="checkbox" data-setting="calibrate_x" <?php checked( $default['calibrate_x'] ); ?>>
+    </label>
     <label class="setting">
       <span><?php _e( 'Y axis', 'wm-parallax' ); ?></span>
       <input type="checkbox" data-setting="calibrate_y" <?php checked( $default['calibrate_y'] ); ?>>
@@ -61,6 +61,6 @@ function wm_parallax_print_media_templates() {
     </label>
     <p><?php _e( 'Amount of friction <em>(adds some easing to the motion)</em>.', 'wm-parallax' ); ?></p>
 
-	</script>
+  </script>
 
 <?php }
