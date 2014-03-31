@@ -4,6 +4,7 @@
 .wm-parallax ul {
   padding: 0;
   display: inline-block;
+  background: url('../../../../wp-admin/images/spinner-2x.gif') center center no-repeat;
 }
 .wm-parallax img {
   max-width: 100%;

@@ -5,7 +5,7 @@ Plugin URI: http://webmaestro.fr/image-parallax-plugin-wordpress/
 Author: Etienne Baudry
 Author URI: http://webmaestro.fr
 Description: A parallax media type.
-Version: 2.1
+Version: 2.1.1
 License: GNU General Public License
 License URI: license.txt
 Text Domain: wm-parallax
@@ -40,11 +40,26 @@ class WM_Parallax
 
   public static function enqueue_scripts()
   {
-    if ( preg_match( '/\[parallax(.)+\]/', $GLOBALS['post']->post_content ) ) {
+    global $post;
+    if ( preg_match_all( '/\[parallax (.+)\]/', $post->post_content, $shortcodes ) ) {
       wp_register_script( 'parallax', plugins_url( 'js/vendor/jquery.parallax.min.js' , __FILE__ ), 'false', false, true );
       wp_enqueue_script( 'wm-parallax', plugins_url( 'js/wm-parallax.js' , __FILE__ ), array( 'parallax' ), false, true );
+      wp_localize_script( 'wm-parallax', 'layers', self::get_layers( $shortcodes[1] ) );
       wp_enqueue_style( 'wm-parallax', plugins_url( 'css/wm-parallax.css' , __FILE__ ) );
     }
+  }
+
+  private function get_layers( $shortcodes ) {
+    $layers = array();
+    foreach ( $shortcodes as $parallax ) {
+      $atts = shortcode_parse_atts( $parallax );
+      $ids = explode( ',', $atts['ids'] );
+      foreach ( $ids as $layer_id ) {
+        $image = wp_get_attachment_image_src( $layer_id, 'large' );
+        $layers[$layer_id] = array( 'src' => $image[0], 'width' => $image[1], 'height' => $image[2] );
+      }
+    }
+    return $layers;
   }
 
   public static function admin_enqueue_scripts( $hook_suffix )
@@ -80,22 +95,22 @@ class WM_Parallax
   }
 
   public static function shortcode( $atts ) {
-    $ids = explode( ',', $atts['ids'] );
-    if ( $count = count( $ids ) - 1 ) {
-      $atts = shortcode_atts( self::$behaviors, $atts, 'parallax' );
-      $output = '<div class="wm-parallax"><ul';
-      foreach ( self::$behaviors as $data => $default ) {
-        $value = isset( $atts[$data] ) ? $atts[$data] : $default;
-        $data = str_replace( '_', '-', $data );
-        $output .= " data-{$data}='{$value}'";
+    if ( isset( $atts['ids'] ) && $ids = explode( ',', $atts['ids'] ) ) {
+      if ( $count = count( $ids ) - 1 ) {
+        $output = '<div class="wm-parallax"><ul';
+        $atts = shortcode_atts( self::$behaviors, $atts, 'parallax' );
+        foreach ( $atts as $data => $value ) {
+          $data = str_replace( '_', '-', $data );
+          $output .= " data-{$data}='{$value}'";
+        }
+        $output .= '>';
+        foreach ( $ids as $i => $id ) {
+          $depth = $i / $count;
+          $output .= "<li class='layer' data-depth='{$depth}' data-layer-id='{$id}'></li>";
+        }
+        return $output . '</ul></div>';
       }
-      $output .= '>';
-      foreach ( $ids as $i => $id ) {
-        $depth = $i / $count;
-        $img = wp_get_attachment_image( $id, 'large' );
-        $output .= "<li class='layer' data-depth='{$depth}'>{$img}</li>";
-      }
-      return $output . '</ul></div>';
+      return wp_get_attachment_image( $ids[0], 'large' );
     }
     return '';
   }
