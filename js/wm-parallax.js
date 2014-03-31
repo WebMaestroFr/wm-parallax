@@ -1,4 +1,4 @@
-(function ($) {
+jQuery(document).ready(function ($) {
   'use strict';
   $('.wm-parallax ul').each(function () {
     var scene = $(this),
@@ -28,4 +28,4 @@
       });
     });
   });
-}(jQuery));
+});
