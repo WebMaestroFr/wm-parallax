@@ -5,7 +5,7 @@ Plugin URI: http://webmaestro.fr/image-parallax-plugin-wordpress/
 Author: Etienne Baudry
 Author URI: http://webmaestro.fr
 Description: A parallax media type.
-Version: 2.1.2
+Version: 2.1.3
 License: GNU General Public License
 License URI: license.txt
 Text Domain: wm-parallax
@@ -49,7 +49,7 @@ class WM_Parallax
     }
   }
 
-  private function get_layers( $shortcodes ) {
+  private static function get_layers( $shortcodes ) {
     $layers = array();
     foreach ( $shortcodes as $parallax ) {
       $atts = shortcode_parse_atts( $parallax );
@@ -116,7 +116,7 @@ class WM_Parallax
   }
 
   // The previous version of this plugin used post types...
-  public function update_plugin() {
+  public static function update_plugin() {
     if ( ! get_option( 'wm-parallax-version' ) ) {
       register_post_type( 'parallax', array( 'public' => false ) );
       $effects = get_posts( array( 'numberposts' => -1, 'post_type' => 'parallax' ) );
@@ -149,4 +149,4 @@ class WM_Parallax
     }
   }
 }
-add_action( 'init', array( WM_Parallax, 'init' ) );
+add_action( 'init', array( 'WM_Parallax', 'init' ) );
