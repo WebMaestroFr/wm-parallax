@@ -41,7 +41,7 @@ class WM_Parallax
   public static function enqueue_scripts()
   {
     global $post;
-    if ( preg_match_all( '/\[parallax (.+)\]/', $post->post_content, $shortcodes ) ) {
+    if ( is_object( $post ) && preg_match_all( '/\[parallax (.+)\]/', $post->post_content, $shortcodes ) ) {
       wp_register_script( 'parallax', plugins_url( 'js/vendor/jquery.parallax.min.js' , __FILE__ ), 'false', false, true );
       wp_enqueue_script( 'wm-parallax', plugins_url( 'js/wm-parallax.js' , __FILE__ ), array( 'parallax' ), false, true );
       wp_localize_script( 'wm-parallax', 'layers', self::get_layers( $shortcodes[1] ) );
