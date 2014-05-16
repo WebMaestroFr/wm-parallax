@@ -1,0 +1,43 @@
+.parallax-edit .attachments {
+  -webkit-perspective: 600px;
+  -moz-perspective: 600px;
+  -o-perspective: 600px;
+}
+
+.parallax-edit .attachment {
+  display: block;
+  float: none;
+  margin: -40px auto 0 !important;
+  -webkit-transform: rotateX( -30deg );
+  -moz-transform: rotateX( -30deg );
+  -o-transform: rotateX( -30deg );
+  transform: rotateX( -30deg );
+}
+.parallax-edit .attachment:first-child {
+  margin-top: 20px !important;
+}
+
+.parallax-edit .attachment .close {
+  top: auto;
+  right: 10px;
+  bottom: 89px;
+}
+
+.parallax-edit .attachment-preview {
+  background: rgba(238,238,238,0.67);
+}
+
+.parallax-settings h4 {
+  margin-bottom: 4px;
+}
+.parallax-settings span {
+  min-width: 30% !important;
+}
+.parallax-settings p {
+  clear: both;
+  margin: 0 0 16px;
+  padding: 4px 0 11px;
+  line-height: 18px;
+  color: #666;
+  border-bottom: 1px solid #ddd;
+}

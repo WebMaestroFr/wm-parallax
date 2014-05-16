@@ -5,7 +5,7 @@ Plugin URI: http://webmaestro.fr/image-parallax-plugin-wordpress/
 Author: Etienne Baudry
 Author URI: http://webmaestro.fr
 Description: A parallax media type.
-Version: 2.1.3
+Version: 2.2.0
 License: GNU General Public License
 License URI: license.txt
 Text Domain: wm-parallax
@@ -33,8 +33,8 @@ class WM_Parallax
     add_action( 'admin_init', array( __CLASS__, 'update_plugin' ) );
     add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
     add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_scripts' ) );
+    add_action( 'print_media_templates', array( __CLASS__, 'print_media_templates' ) );
     add_filter( 'media_view_strings', array( __CLASS__, 'media_view_strings' ) );
-    add_filter( 'mce_external_plugins', array( __CLASS__, 'mce_plugin' ) );
     add_shortcode( 'parallax', array( __CLASS__, 'shortcode' ) );
   }
 
@@ -44,7 +44,7 @@ class WM_Parallax
     if ( is_object( $post ) && preg_match_all( '/\[parallax (.+)\]/', $post->post_content, $shortcodes ) ) {
       wp_register_script( 'parallax', plugins_url( 'js/vendor/jquery.parallax.min.js' , __FILE__ ), 'false', false, true );
       wp_enqueue_script( 'wm-parallax', plugins_url( 'js/wm-parallax.js' , __FILE__ ), array( 'parallax' ), false, true );
-      wp_localize_script( 'wm-parallax', 'layers', self::get_layers( $shortcodes[1] ) );
+      wp_localize_script( 'wm-parallax', 'parallaxLayers', self::get_layers( $shortcodes[1] ) );
       wp_enqueue_style( 'wm-parallax', plugins_url( 'css/wm-parallax.css' , __FILE__ ) );
     }
   }
@@ -56,7 +56,11 @@ class WM_Parallax
       $ids = explode( ',', $atts['ids'] );
       foreach ( $ids as $layer_id ) {
         $image = wp_get_attachment_image_src( $layer_id, 'large' );
-        $layers[$layer_id] = array( 'src' => $image[0], 'width' => $image[1], 'height' => $image[2] );
+        $layers[$layer_id] = array(
+          'src' => $image[0],
+          'width' => $image[1],
+          'height' => $image[2]
+        );
       }
     }
     return $layers;
@@ -65,18 +69,17 @@ class WM_Parallax
   public static function admin_enqueue_scripts( $hook_suffix )
   {
     if ( current_user_can( 'edit_posts' ) && ( $hook_suffix === 'post-new.php' || $hook_suffix === 'post.php' ) ) {
-      require_once( plugin_dir_path( __FILE__ ) . 'tpl/edit.php' );
       wp_enqueue_media();
-      wp_enqueue_script( 'wm-parallax-media', plugins_url( 'js/wm-parallax-media.js' , __FILE__ ), array( 'media-views' ), false, true );
-      wp_enqueue_style( 'wm-parallax-media', plugins_url( 'css/wm-parallax-media.css' , __FILE__ ) );
-      add_editor_style( plugins_url( 'css/wm-parallax-editor.css' , __FILE__ ) );
+      wp_enqueue_script( 'wm-parallax-media', plugins_url( 'js/media.js' , __FILE__ ), array( 'media-views' ), false, true );
+      wp_enqueue_style( 'wm-parallax-media', plugins_url( 'css/media.css' , __FILE__ ) );
+      add_editor_style( plugins_url( 'css/wm-parallax.css' , __FILE__ ) );
     }
   }
 
-  public static function mce_plugin( $plugins )
+  public static function print_media_templates()
   {
-    $plugins['parallax'] = plugins_url( 'js/wm-parallax-editor.js' , __FILE__ );
-    return $plugins;
+    include_once( plugin_dir_path( __FILE__ ) . 'tpl/editor.php' );
+    include_once( plugin_dir_path( __FILE__ ) . 'tpl/settings.php' );
   }
 
   public static function media_view_strings( $strings )
@@ -88,8 +91,8 @@ class WM_Parallax
       'cancelParallaxTitle' => __( '&#8592; Cancel Parallax' ),
       'insertParallax'      => __( 'Insert parallax' ),
       'updateParallax'      => __( 'Update parallax' ),
-      'addToParallax'       => __( 'Add to parallax' ),
-      'addToParallaxTitle'  => __( 'Add to Parallax' ),
+      'addToParallax'       => __( 'Add Layers' ),
+      'addToParallaxTitle'  => __( 'Add Layers' ),
       'deleteParallaxTitle' => __( 'Delete Parallax' )
     ) );
   }
@@ -105,7 +108,7 @@ class WM_Parallax
         }
         $output .= '>';
         foreach ( $ids as $i => $id ) {
-          $depth = $i / $count;
+          $depth = round($i / $count, 2);
           $output .= "<li class='layer' data-depth='{$depth}' data-layer-id='{$id}'></li>";
         }
         return $output . '</ul></div>';
