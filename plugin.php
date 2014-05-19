@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: WebMaestro Parallax
+Plugin Name: Image Parallax
 Plugin URI: http://webmaestro.fr/image-parallax-plugin-wordpress/
 Author: Etienne Baudry
 Author URI: http://webmaestro.fr
 Description: A parallax media type.
-Version: 2.2.0
+Version: 2.0
 License: GNU General Public License
 License URI: license.txt
 Text Domain: wm-parallax
