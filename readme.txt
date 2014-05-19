@@ -39,8 +39,8 @@ No answer to give.
 
 == Screenshots ==
 
-1. First of all, generate independent .png files of each layer of your image. This is the boring step.
-2. Upload your layers, organise them, and configure the animation.
+1. Upload your layers, organise them, and configure the animation.
+2. First of all, generate independent .png files of each layer of your image. This is the boring step.
 
 == Changelog ==
 
