@@ -4,25 +4,14 @@
     l10n = media.view.l10n,
     mediaFrame = media.view.MediaFrame.Post;
 
-  // MODEL
+  // COLLECTION
   media.parallax = new media.collection({
     tag: 'parallax',
-    type : 'image',
-    editTitle : media.view.l10n.editParallaxTitle,
-    defaults : {
-      'calibrate_x': false,
-      'calibrate_y': true,
-      'invert_x': true,
-      'invert_y': true,
-      'limit_x': false,
-      'limit_y': false,
-      'scalar_x': 10.0,
-      'scalar_y': 10.0,
-      'friction_x': 0.5,
-      'friction_y': 0.5
-    }
+    type: 'image',
+    editTitle: media.view.l10n.editParallaxTitle,
+    defaults: $.parseJSON(media.view.l10n.parallaxSettings)
   });
-  // MODEL
+  // COLLECTION
 
   // VIEWS
   media.view.MediaFrame.Post = mediaFrame.extend({
@@ -193,7 +182,7 @@
     parallaxSettings: function (browser) {
       var library = this.get('library');
       if (!library || !browser) { return; }
-      library.parallax = library.parallax || new Backbone.Model();
+      library.parallax = library.parallax || new Backbone.Model(media.parallax.defaults);
       browser.sidebar.set({
         parallax: new media.view.Settings.Parallax({
           controller: this,
@@ -271,9 +260,7 @@
         this.dfd = this.attachments.more().done(_.bind(this.render, this));
       },
       getHtml: function () {
-        var attrs = this.shortcode.attrs.named,
-          attachments = false,
-          options;
+        var attachments = false;
         if (this.dfd && 'pending' === this.dfd.state() && !this.attachments.length) { return; }
         if (this.attachments.length) {
           attachments = this.attachments.toJSON();
@@ -283,8 +270,7 @@
             }
           });
         }
-        options = { attachments: attachments };
-        return this.template(options);
+        return this.template({ attachments: attachments });
       }
     }),
     edit: function (node) {

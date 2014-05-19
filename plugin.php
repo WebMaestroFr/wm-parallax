@@ -24,8 +24,10 @@ class WM_Parallax
     'limit_y' => false,
     'scalar_x' => 10.0,
     'scalar_y' => 10.0,
-    'friction_x' => 0.5,
-    'friction_y' => 0.5
+    'friction_x' => 0.1,
+    'friction_y' => 0.1,
+    'origin_x' => 0.5,
+    'origin_y' => 0.5
   );
 
   public static function init()
@@ -42,28 +44,11 @@ class WM_Parallax
   {
     global $post;
     if ( is_object( $post ) && preg_match_all( '/\[parallax (.+)\]/', $post->post_content, $shortcodes ) ) {
-      wp_register_script( 'parallax', plugins_url( 'js/vendor/jquery.parallax.min.js' , __FILE__ ), 'false', false, true );
-      wp_enqueue_script( 'wm-parallax', plugins_url( 'js/wm-parallax.js' , __FILE__ ), array( 'parallax' ), false, true );
-      wp_localize_script( 'wm-parallax', 'parallaxLayers', self::get_layers( $shortcodes[1] ) );
+      // wp_register_script( 'parallax', plugins_url( 'js/vendor/parallax.min.js' , __FILE__ ), false, false, true );
+      // wp_enqueue_script( 'wm-parallax', plugins_url( 'js/wm-parallax.js' , __FILE__ ), array( 'parallax' ), false, true );
+      wp_enqueue_script( 'wm-parallax', plugins_url( 'js/pack.js' , __FILE__ ), false, false, true );
       wp_enqueue_style( 'wm-parallax', plugins_url( 'css/wm-parallax.css' , __FILE__ ) );
     }
-  }
-
-  private static function get_layers( $shortcodes ) {
-    $layers = array();
-    foreach ( $shortcodes as $parallax ) {
-      $atts = shortcode_parse_atts( $parallax );
-      $ids = explode( ',', $atts['ids'] );
-      foreach ( $ids as $layer_id ) {
-        $image = wp_get_attachment_image_src( $layer_id, 'large' );
-        $layers[$layer_id] = array(
-          'src' => $image[0],
-          'width' => $image[1],
-          'height' => $image[2]
-        );
-      }
-    }
-    return $layers;
   }
 
   public static function admin_enqueue_scripts( $hook_suffix )
@@ -93,7 +78,8 @@ class WM_Parallax
       'updateParallax'      => __( 'Update parallax' ),
       'addToParallax'       => __( 'Add Layers' ),
       'addToParallaxTitle'  => __( 'Add Layers' ),
-      'deleteParallaxTitle' => __( 'Delete Parallax' )
+      'deleteParallaxTitle' => __( 'Delete Parallax' ),
+      'parallaxSettings'    => json_encode( self::$behaviors )
     ) );
   }
 
@@ -103,13 +89,14 @@ class WM_Parallax
         $output = '<div class="wm-parallax"><ul';
         $atts = shortcode_atts( self::$behaviors, $atts, 'parallax' );
         foreach ( $atts as $data => $value ) {
-          $data = str_replace( '_', '-', $data );
-          $output .= " data-{$data}='{$value}'";
+          if ( is_bool( $value ) ) { $value = $value ? 'true' : 'false'; }
+          $output .= ' data-' . str_replace( '_', '-', $data ) . '="' . $value . '"';
         }
         $output .= '>';
         foreach ( $ids as $i => $id ) {
           $depth = round($i / $count, 2);
-          $output .= "<li class='layer' data-depth='{$depth}' data-layer-id='{$id}'></li>";
+          $image = wp_get_attachment_image( $id, 'large' );
+          $output .= "<li class='layer' data-depth='{$depth}'>{$image}</li>";
         }
         return $output . '</ul></div>';
       }
