@@ -1,33 +1,25 @@
-.wm-parallax {
+div.wm-parallax {
   margin: 1em 0;
   line-height: 0;
   text-align: center;
 }
-.wm-parallax ul {
+div.wm-parallax > ul {
   display: inline-block;
   position: relative;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.wm-parallax li {
+div.wm-parallax > ul > li.layer {
   display: block;
   position: absolute;
   left: 0;
   top: 0;
 }
-.wm-parallax li:first-child {
+div.wm-parallax > ul > li.layer:first-child {
   position: relative;
 }
-.wm-parallax img {
+div.wm-parallax > ul > li.layer > img {
   max-width: 100%;
   height: auto;
-}
-.wpview-type-parallax {
-  background: url('../img/parallax.png') no-repeat scroll 5px 5px;
-  border: 1px dashed rgba(110,71,147,0.5);
-}
-.wpview-type-parallax.selected {
-  background: rgba(110,71,147,0.2);
-  border-color: #6e4793;
 }

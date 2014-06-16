@@ -1,0 +1,8 @@
+.wpview-type-parallax {
+  background: url('../img/parallax.png') no-repeat scroll 5px 5px;
+  border: 1px dashed rgba(110,71,147,0.5);
+}
+.wpview-type-parallax.selected {
+  background: rgba(110,71,147,0.2);
+  border-color: #6e4793;
+}
