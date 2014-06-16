@@ -44,6 +44,9 @@ No answer to give.
 
 == Changelog ==
 
+= 2.1 =
+Improved CSS
+
 = 2.0 =
 New version, now using a media type instead of a post type ! Compatible with WP3.9 !
 
@@ -62,6 +65,9 @@ Also fixed the funny opacity problem in the background.
 Waiting for feed back !
 
 == Upgrade Notice ==
+
+= 2.1 =
+Improved CSS
 
 = 2.0 =
 New version, now using a media type instead of a post type ! Compatible with WP3.9 !
