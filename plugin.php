@@ -57,6 +57,7 @@ class WM_Parallax
       wp_enqueue_media();
       wp_enqueue_script( 'wm-parallax-media', plugins_url( 'js/media.js', __FILE__ ), array( 'media-views' ), false, true );
       wp_enqueue_style( 'wm-parallax-media', plugins_url( 'css/media.css', __FILE__ ) );
+      add_editor_style( plugins_url( 'css/wm-parallax.css', __FILE__ ) );
       add_editor_style( plugins_url( 'css/editor.css', __FILE__ ) );
     }
   }

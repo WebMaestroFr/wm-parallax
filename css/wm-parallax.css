@@ -10,6 +10,7 @@ div.wm-parallax > ul {
   padding: 0;
   list-style: none;
 }
+.wm-parallax li,
 div.wm-parallax > ul > li.layer {
   display: block;
   position: absolute;
@@ -18,9 +19,11 @@ div.wm-parallax > ul > li.layer {
   left: 0;
   top: 0;
 }
+.wm-parallax li:first-child,
 div.wm-parallax > ul > li.layer:first-child {
   position: relative;
 }
+.wm-parallax img,
 div.wm-parallax > ul > li.layer > img {
   max-width: 100%;
   height: auto;
