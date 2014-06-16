@@ -5,7 +5,7 @@ Plugin URI: http://webmaestro.fr/image-parallax-plugin-wordpress/
 Author: Etienne Baudry
 Author URI: http://webmaestro.fr
 Description: A parallax media type.
-Version: 2.0
+Version: 2.1
 License: GNU General Public License
 License URI: license.txt
 Text Domain: wm-parallax
@@ -44,10 +44,10 @@ class WM_Parallax
   {
     global $post;
     if ( is_object( $post ) && preg_match_all( '/\[parallax (.+)\]/', $post->post_content, $shortcodes ) ) {
-      // wp_register_script( 'parallax', plugins_url( 'js/vendor/parallax.min.js' , __FILE__ ), false, false, true );
-      // wp_enqueue_script( 'wm-parallax', plugins_url( 'js/wm-parallax.js' , __FILE__ ), array( 'parallax' ), false, true );
-      wp_enqueue_script( 'wm-parallax', plugins_url( 'js/pack.js' , __FILE__ ), false, false, true );
-      wp_enqueue_style( 'wm-parallax', plugins_url( 'css/wm-parallax.css' , __FILE__ ) );
+      // wp_register_script( 'parallax', plugins_url( 'js/vendor/parallax.min.js', __FILE__ ), false, false, true );
+      // wp_enqueue_script( 'wm-parallax', plugins_url( 'js/wm-parallax.js', __FILE__ ), array( 'parallax' ), false, true );
+      wp_enqueue_script( 'wm-parallax', plugins_url( 'js/pack.js', __FILE__ ), false, false, true );
+      wp_enqueue_style( 'wm-parallax', plugins_url( 'css/wm-parallax.css', __FILE__ ), false, '2.1' );
     }
   }
 
@@ -55,10 +55,9 @@ class WM_Parallax
   {
     if ( current_user_can( 'edit_posts' ) && ( $hook_suffix === 'post-new.php' || $hook_suffix === 'post.php' ) ) {
       wp_enqueue_media();
-      wp_enqueue_script( 'wm-parallax-media', plugins_url( 'js/media.js' , __FILE__ ), array( 'media-views' ), false, true );
-      wp_enqueue_style( 'wm-parallax-media', plugins_url( 'css/media.css' , __FILE__ ) );
-      add_editor_style( plugins_url( 'css/wm-parallax.css' , __FILE__ ) );
-      add_editor_style( 'wm-parallax', plugins_url( 'css/editor.css' , __FILE__ ) );
+      wp_enqueue_script( 'wm-parallax-media', plugins_url( 'js/media.js', __FILE__ ), array( 'media-views' ), false, true );
+      wp_enqueue_style( 'wm-parallax-media', plugins_url( 'css/media.css', __FILE__ ) );
+      add_editor_style( plugins_url( 'css/editor.css', __FILE__ ) );
     }
   }
 
