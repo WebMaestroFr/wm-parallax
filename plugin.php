@@ -87,7 +87,7 @@ class WM_Parallax
   public static function shortcode( $atts ) {
     if ( isset( $atts['ids'] ) && $ids = explode( ',', $atts['ids'] ) ) {
       if ( $count = count( $ids ) - 1 ) {
-        $output = '<div class="wm-parallax"><ul';
+        $output = '<div class="wm-parallax"><ul class="wm-parallax-ul"';
         $atts = shortcode_atts( self::$behaviors, $atts, 'parallax' );
         foreach ( $atts as $data => $value ) {
           if ( is_bool( $value ) ) { $value = $value ? 'true' : 'false'; }
